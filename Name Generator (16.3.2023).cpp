@@ -1,10 +1,16 @@
 #include <iostream>
 #include <string>
 using namespace std;
-int main()
-{
+string generadorDeEspacios(int numeroEspacios) {
+	string salida = "";
+	for (int i = 0; i < numeroEspacios; i++) {
+		salida = salida + " ";
+	}
+	return salida;
+}
+void main(){
 	int numeroEspacios, longitudNombre, longitudConstanteCadena; // Declaración de variables tipo numérico
-	string nombre, lineaCentral,
+	string nombre, lineaCentral, espacios,
 		asterisco = "**************************************************", 
 		miNombreEsCadena="Mi nombre es "; // Declaración de variables 
 	cout << "Ingrese su nombre: ";
@@ -15,15 +21,8 @@ int main()
 		asterisco = asterisco + "*";
 	}
 	numeroEspacios = (asterisco.length() - longitudNombre-longitudConstanteCadena) / 2.0 - 1;
-	lineaCentral = "*";
-	for (int i = 0; i < numeroEspacios; i++) {
-		lineaCentral = lineaCentral + " ";
-	}
-	lineaCentral = lineaCentral + miNombreEsCadena + nombre;
-	for (int i = 0; i < numeroEspacios; i++) {
-		lineaCentral = lineaCentral + " ";
-	}
-	lineaCentral = lineaCentral + "*";
+	espacios = generadorDeEspacios(numeroEspacios);
+	lineaCentral = "*" + espacios + miNombreEsCadena + nombre + espacios+"*";
 	cout << asterisco << endl;
 	cout << lineaCentral << endl;
 	cout << asterisco << endl;
