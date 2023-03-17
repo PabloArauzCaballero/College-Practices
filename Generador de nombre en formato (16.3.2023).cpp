@@ -31,17 +31,9 @@ void main(){
 *   ENTRADA: Nombre
 *   SALIDA: Texto de asteristos con nombre centrado
 *			**************************************************
-*			*    Mi nombre es Pablo    *   
+*			*               Mi nombre es Pablo               *   
 *			**************************************************
 *			(Si la longitud del texto es impar, el numero de asteriscos debe ser impar)
-*			***************
-*			*    Pablo_    *  (Si el numero de asteriscos es par, el numero de asteriscos debes er par)
-*   ALGORITMO
-*       Flotantante numeroDeEspacios;
-*       Cadena Nombre, Asteristos, MiNombreCadena;
-*       Leer Nombre;
-*		Si longitud%2 != 0:
-*			Asteriscos = Asteriscos+"*";
-*       numeroDeEspacios = (Asteriscos.longitud()-nombre.longitud())/2.0-1
+*			(Si el numero de asteriscos es par, el numero de asteriscos debes er par)
 * 
 */
