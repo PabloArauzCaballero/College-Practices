@@ -3,10 +3,10 @@
 using namespace std;
 int main()
 {
-	int numeroEspacios, longitudNombre, longitudConstanteCadena; // Declaración de variables tipo numérico
+	int numeroEspacios, longitudNombre, longitudConstanteCadena; // DeclaraciÃ³n de variables tipo numÃ©rico
 	string nombre, lineaCentral,
 		asterisco = "**************************************************", 
-		miNombreEsCadena="Mi nombre es "; // Declaración de variables 
+		miNombreEsCadena="Mi nombre es "; // DeclaraciÃ³n de variables 
 	cout << "Ingrese su nombre: ";
 	cin >> nombre;
 	longitudNombre = nombre.length();
