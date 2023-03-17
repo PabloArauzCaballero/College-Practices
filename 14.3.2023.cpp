@@ -1,15 +1,10 @@
 #include <iostream>
 using namespace std;
-
 int main(){
 	float lado;
 	cout << "Ingrese el lado del cuadrado (cm^2): ";
 	cin >> lado;
 	cout << "Area del cuadrado = " << lado * lado <<"cm2" << endl;
-
-	// Interes simple
-
-
 }
 /*
 *	AREA DE UN CUADRADO
