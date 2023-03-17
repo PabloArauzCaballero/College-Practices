@@ -22,6 +22,7 @@ int main()
         cout << "X2 (Segunda Raiz): " << x2 << endl;
     }
     if(a==0) { // Validacion de casos contiguos
+        cout<<"Discriminante: "<<discriminante<<endl;
         cout << "Error: COEFICIENTES INGRESADOS NO CORRESPONDEN A PARÁMTEROS DE UNA ECUACIÓN CUADRÁTICA";
     }
     if (discriminante < 0) { // Validacion de casos contiguos
