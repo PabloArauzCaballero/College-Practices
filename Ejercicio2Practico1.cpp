@@ -1,17 +1,13 @@
-/*
-* 2.	Calcular la circunferencia, el área y el volumen de una esfera, si se conoce como dato el diámetro D.
-*   ENTRADA: Diametro
-*   SALIDA: Area y Volumen
-*/
-#include <iostream>
-#include <math.h>
-#define PI 3.151592
-using namespace std;
+// Ejercicio2Practico1.cpp : Este archivo contiene la función "main". La ejecución del programa comienza y termina ahí.
+//
 
-int main(){
-    float diametro;
-    cout << "Ingrese el diametro (cm): ";
-    cin >> diametro;
-    cout << "Area (Circulo) = "<<PI*pow(diametro/2,2)<<endl;
-    cout << "Volumen (Esfera) = " << 4 / 3 * PI*pow(diametro/2,3)<<endl;
+#include <iostream>
+using namespace std;
+void main(){
+    float presupuesto;
+    cout << "Ingrese el presupuesto asignado total ($): ";
+    cin >> presupuesto;
+    cout << "Presupuesto asignado a Traumatologia: " << presupuesto * 0.3 << endl;
+    cout << "Presupuesto asignado a Ginecologia: " << presupuesto * 0.4 << endl;
+    cout << "Presupuesto asignado a Pediatria: " << presupuesto * 0.3 << endl;
 }
