@@ -96,5 +96,6 @@ int main(){
 		default:
 			cout << "Error" << endl;
 		}
+		system("pause");
 	} while (variableBandera);
 }
