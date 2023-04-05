@@ -3,75 +3,184 @@
 using namespace std;
 
 // Creando las clases pricipales
-class Gasto {
-public: Gasto(string IDIngreso, string categoria, string subcategoria, string glosa, string tipoGasto);
+class Moneda {
+	
+};
+
+class Pregunta {
+
+};
+
+class Opcion {
+
+};
+
+class Respuesta {
+
+};
+
+class Usuario {
+public: Usuario(string IDUsuario, string nombre, string apellidoPaterno, string apellidoMaterno, string contrasena,
+	string fechaRegistro, string montoAhorrado, string sexo, string fechaNacimiento, string telefono, string codigoPais,
+	string pais, Moneda monedaPatron);
 private:
+	string IDUsuario;
+	string nombre;
+	string apellido_Paterno;
+	string apellido_Materno;
+	string contrasena;
+	string fechaRegistro;
+	string montoAhorrado;
+	string sexo;
+	string fechaNacimiento;
+	string telefono;
+	string codigoPais;
+	string pais;
+	Moneda monedaPatron;
+public:
+	string getIDUsaurio();
+	string getNombre();
+	string getApellido_Paterno();
+	string getApellido_Materno();
+	string getContrasena();
+	string getFechaRegistro();
+	string getMontoAhorrado();
+	string getSexo();
+	string getFechaNacimiento();
+	string getTelefono();
+	string getCodigoPais();
+	string getPais();
+	Moneda getMonedaPatron();
+};
+Usuario::Usuario(string IDUsuario, string nombre, string apellidoPaterno, string apellidoMaterno, string contrasena,
+	string fechaRegistro, string montoAhorrado, string sexo, string fechaNacimiento, string telefono, string codigoPais,
+	string pais, Moneda monedaPatron){
+	this->IDUsuario= IDUsuario;
+	this->nombre= nombre;
+	this->apellido_Paterno= apellido_Paterno;
+	this->apellido_Materno= apellido_Materno;
+	this->contrasena= contrasena;
+	this->fechaRegistro= fechaRegistro;
+	this->montoAhorrado= montoAhorrado;
+	this->sexo= sexo;
+	this->fechaNacimiento= fechaNacimiento;
+	this->telefono= telefono;
+	this->codigoPais= codigoPais;
+	this->pais= pais;
+	this->monedaPatron= monedaPatron;
+}
+string Usuario::getIDUsaurio() { return IDUsuario;}
+string Usuario::getNombre() { return nombre; }
+string Usuario::getApellido_Paterno() { return apellido_Paterno; }
+string Usuario::getApellido_Materno() { return apellido_Materno; }
+string Usuario::getContrasena() { return contrasena; }
+string Usuario::getFechaRegistro() { return fechaRegistro; }
+string Usuario::getMontoAhorrado() { return montoAhorrado; }
+string Usuario::getSexo() { return sexo; }
+string Usuario::getFechaNacimiento() { return fechaNacimiento; }
+string Usuario::getTelefono() { return telefono; }
+string Usuario::getCodigoPais() { return codigoPais; }
+string Usuario::getPais() { return pais; }
+Moneda Usuario::getMonedaPatron() { return monedaPatron;}
+
+class Fecha {
+public: Fecha(int dia, int mes, int ano);
+public: Fecha(string parametroFechaSQL);
+private:
+	int mes;
+	int dia;
+	int ano;
+public:
+	int getMes();
+	int getDia();
+	int getAno();
+	string toString();
+};
+Fecha::Fecha(int dia, int mes, int ano) {
+	this->dia = dia;
+	this->mes = mes;
+	this->ano = ano;
+}
+Fecha::Fecha(string parametroFechaSQL) {
+	char delimitador = '-';
+	int fecha[3] = {}, contador = 0, indexParametro = 0;;
+	for (int i = 0; i < parametroFechaSQL.length(); i++) {
+		if (parametroFechaSQL.at(i) == delimitador) {
+			fecha[contador] = stoi(parametroFechaSQL.substr(indexParametro, i));
+			indexParametro = i + 1;
+			contador++;
+			if (contador == 2) fecha[contador] = stoi(parametroFechaSQL.substr(indexParametro));
+		}
+	}
+	this->dia = fecha[0];
+	this->mes = fecha[1];
+	this->ano = fecha[2];
+}
+int Fecha::getMes() {return mes;}
+int Fecha::getDia() { return dia; }
+int Fecha::getAno() { return ano; }
+string Fecha::toString(){
+	string strMes = to_string(this->mes);
+	string strDia = to_string(this->dia);
+	if (mes < 10) strMes = "0" + strMes;
+	if (dia < 10) strDia = "0" + strDia;
+	cout << strMes << endl;
+	cout << strDia << endl;
+	return to_string(this->ano) + "-" + strMes + "-" + strDia;
+}
+
+class Transaccion {
+public: Transaccion(string IDTransaccion, string tipoTransaccion, string categoria, string subCategoria,
+	string glosa, string temporalidad, string tipoRepeticion, Moneda monedaRegistro, Usuario usuario);
+private:
+	string IDTransaccion;
+	string tipoTransaccion;
 	string categoria;
 	string subCategoria;
-	string IDGasto;
 	string glosa;
-	string tipoGasto; 
+	string temporalidad;
+	string tipoRepeticion;
+	Usuario usuario;
+	Moneda monedaRegistro;
 	// fecha
 public:
+	string getIDTransaccion();
+	string getTipoTransaccion();
 	string getCategoria();
 	string getSubCategoria();
-	string getIDGasto();
 	string getGlosa();
-	string getTipoGasto();
+	string getTemporalidad();
+	string getTipoRepeticion();
+	Moneda getMonedaRegistro();
+	Usuario getUsuario();	
 	void setCategoria(string categoria);
 	void setGlosa(string glosa);
 	void setTipoGasto(string tipoGasto);
 };
-Gasto::Gasto(string IDGasto, string categoria, string subcategoria, string glosa, string tipoGasto) {
-	this->IDGasto = IDGasto;
+Transaccion::Transaccion(string IDTransaccion, string tipoTransaccion, string categoria, string subCategoria,
+	string glosa, string temporalidad, string tipoRepeticion, Moneda monedaRegistro, Usuario usuario):
+		usuario(usuario){
+	this->IDTransaccion = IDTransaccion;
+	this->tipoTransaccion = tipoTransaccion;
 	this->categoria = categoria;
 	this->subCategoria = subCategoria;
 	this->glosa = glosa;
-	this->tipoGasto = tipoGasto;
+	this->temporalidad = temporalidad;
+	this->tipoRepeticion = tipoRepeticion;  // GOOGLE COLABORATY
+	this->monedaRegistro = monedaRegistro;
+	this->usuario = usuario;
 }
-string Gasto::getCategoria() { return categoria; }
-string Gasto::getSubCategoria() { return subCategoria; }
-string Gasto::getIDGasto() { return IDGasto; }
-string Gasto::getGlosa() { return glosa; }
-string Gasto::getTipoGasto() { return tipoGasto; }
-void Gasto::setCategoria(string categoria) { this->categoria = categoria; }
-void Gasto::setGlosa(string glosa) { this->glosa = glosa; }
-void Gasto::setTipoGasto(string tipoGasto) { this->tipoGasto = tipoGasto; }
-
-class Ingreso {
-public:Ingreso(string IDIngreso, string categoria, string subCategoria, string glosa, string tipoIngreso);
-private:
-	string categoria;
-	string subCategoria;
-	string IDIngreso;
-	string glosa;
-	string tipoIngreso;
-	// fecha
-public:
-	string getCategoria();
-	string getSubCategoria();
-	string getIDIngreso();
-	string getGlosa();
-	string getTipoIngreso();
-	void setCategoria(string categoria);
-	void setGlosa(string glosa);
-	void setTipoIngreso(string tipoIngreso);
-};
-Ingreso::Ingreso(string IDIngreso, string categoria, string subCategoria, string glosa, string tipoIngreso) {
-	this->IDIngreso = IDIngreso;
-	this->categoria = categoria;
-	this->glosa = glosa;
-	this->tipoIngreso = tipoIngreso;
-	this->subCategoria = subCategoria;
-}
-string Ingreso::getCategoria() { return categoria; }
-string Ingreso::getSubCategoria() { return subCategoria; }
-string Ingreso::getIDIngreso() { return IDIngreso; }
-string Ingreso::getGlosa() { return glosa; }
-string Ingreso::getTipoIngreso() { return tipoIngreso; }
-void Ingreso::setCategoria(string categoria) { this->categoria = categoria; }
-void Ingreso::setGlosa(string glosa) { this->glosa = glosa; }
-void Ingreso::setTipoIngreso(string tipoGasto) { this->tipoIngreso = tipoIngreso; }
+string Transaccion::getIDTransaccion() { return IDTransaccion; }
+string Transaccion::getTipoTransaccion() { return tipoTransaccion; }
+string Transaccion::getCategoria() { return categoria; }
+string Transaccion::getSubCategoria() { return subCategoria; }
+string Transaccion::getGlosa() { return glosa; }
+string Transaccion::getTemporalidad() { return temporalidad; }
+string Transaccion::getTipoRepeticion() { return tipoRepeticion; }
+Moneda Transaccion::getMonedaRegistro() { return monedaRegistro; }
+Usuario Transaccion::getUsuario() { return usuario;}
+void Transaccion::setCategoria(string categoria) { this->categoria = categoria; }
+void Transaccion::setGlosa(string glosa) { this->glosa = glosa; }
 
 class Presupuesto {
 public:Presupuesto(string IDPresupuesto, string categoria, string subCategoria, string tipo, float montoLim);
@@ -109,176 +218,69 @@ void Presupuesto::setSubCategoria(string subCategoria) { this->subCategoria = su
 void Presupuesto::setTipo(string tipo) { this->tipo = tipo; }
 void Presupuesto::setMontoLim(float montoLim) { this->montoLim = montoLim; }
 // Creando clases heredadas
-class GastoFijo : public Gasto {
-public:GastoFijo(float Monto, string tipoRepeticion, string IDIngreso, string categoria, string subcategoria, 
-	string glosa, string tipoGasto);
+class TransaccionPeriodica : public Transaccion{
+public: TransaccionPeriodica(string periodicidad, bool vConsulta, string IDTransaccion, 
+	string tipoTransaccion, string categoria, string subCategoria, string glosa, 
+	string temporalidad, string tipoRepeticion, Moneda monedaRegistro, Usuario usuario);
+private: 
+	string periodicidad;
+	bool vConsulta; // Consulta si desea ser notificado cuando 
+public:
+	string getPeriodicidad();
+	bool getVConsulta();
+};
+TransaccionPeriodica::TransaccionPeriodica(string periodicidad, bool vConsulta, string IDTransaccion, 
+	string tipoTransaccion, string categoria, string subCategoria, string glosa, string temporalidad,
+	string tipoRepeticion, Moneda monedaRegistro, Usuario usuario):Transaccion(IDTransaccion,
+		tipoTransaccion, categoria, subCategoria,glosa, temporalidad, tipoRepeticion,
+		monedaRegistro, usuario){
+	this->periodicidad = periodicidad;
+	this->vConsulta = vConsulta;
+}
+string TransaccionPeriodica::getPeriodicidad() { return periodicidad; }
+bool TransaccionPeriodica::getVConsulta() { return vConsulta; }
+
+class TransaccionTemporalidadFija : public Transaccion {
+public: TransaccionTemporalidadFija(float monto, string IDTransaccion,string tipoTransaccion, 
+	string categoria, string subCategoria, string glosa, string temporalidad,
+	string tipoRepeticion, Moneda monedaRegistro, Usuario usuario);
 private:
 	float monto;
-	string tipoRepeticion;
 public:
 	float getMonto();
-	string getTipoRepeticion();
-	void setMonto(float monto);
-	void setTipoRepeticion(string tipoRepeticion);
 };
-GastoFijo::GastoFijo(float Monto, string tipoRepeticion, string IDIngreso, string categoria, string subcategoria,
-	string glosa, string tipoGasto):Gasto(IDIngreso, categoria, subcategoria,glosa, tipoGasto) {
+TransaccionTemporalidadFija::TransaccionTemporalidadFija(float monto, string IDTransaccion,
+	string tipoTransaccion, string categoria, string subCategoria, string glosa, string temporalidad,
+	string tipoRepeticion, Moneda monedaRegistro, Usuario usuario) :Transaccion(IDTransaccion,
+		tipoTransaccion, categoria, subCategoria, glosa, temporalidad, tipoRepeticion,
+		monedaRegistro, usuario) {
 	this->monto = monto;
-	this->tipoRepeticion = tipoRepeticion;
 }
-float GastoFijo::getMonto() { return monto; }
-string GastoFijo::getTipoRepeticion() { return tipoRepeticion; }
-void GastoFijo::setMonto(float monto) { this->monto = monto; }
-void GastoFijo::setTipoRepeticion(string tipoRepeticion) { this->tipoRepeticion = tipoRepeticion; }
+float TransaccionTemporalidadFija::getMonto() { return monto; }
 
-class IngresoFijo : public Ingreso {
-public:IngresoFijo(float monto, string tipoRepeticion, string IDIngreso, string categoria, string subCategoria, 
-	string glosa, string tipoIngreso);
+class TransaccionTemporalidadVariable : public Transaccion {
+public: TransaccionTemporalidadVariable(float precio, float cantidad, string IDTransaccion,
+	string tipoTransaccion, string categoria, string subCategoria, string glosa, string temporalidad,
+	string tipoRepeticion, Moneda monedaRegistro, Usuario usuario);
 private:
-	float monto;
-	string tipoRepeticion;
-public:
-	float getMonto();
-	string getTipoRepeticion();
-	void setMonto(float monto);
-	void setTipoRepeticion(string tipoRepeticion);
-};
-IngresoFijo::IngresoFijo(float monto, string tipoRepeticion, string IDIngreso, string categoria, string subCategoria,
-	string glosa, string tipoIngreso):Ingreso(IDIngreso, categoria, subCategoria, glosa, tipoIngreso) {
-	this->monto = monto;
-	this->tipoRepeticion = tipoRepeticion;
-}
-float IngresoFijo::getMonto() { return monto; }
-string IngresoFijo::getTipoRepeticion() { return tipoRepeticion; }
-void IngresoFijo::setMonto(float monto) { this->monto = monto; }
-void IngresoFijo::setTipoRepeticion(string tipoRepeticion) { this->tipoRepeticion = tipoRepeticion; }
-
-class GastoVariable : public Gasto {
-public:GastoVariable(float montoVariable, float cantidad, string tipoRepeticion, string IDGasto, string categoria, 
-	string subcategoria, string glosa, string tipoGasto);
-private:
-	float montoVariable;
+	float precio;
 	float cantidad;
-	string tipoRepeticion;
 public:
-	float getMontoVariable();
+	float getPrecio();
 	float getCantidad();
-	string getTipoRepeticion();
-	void setMonto(float montoVariable);
-	void setCantidad(float cantidad);
-	void setTipoRepeticion(string tipoRepeticion);
 };
-GastoVariable::GastoVariable(float montoVariable, float cantidad, string tipoRepeticion, string IDGasto, string categoria,
-	string subcategoria, string glosa, string tipoGasto) : Gasto(IDGasto, categoria, subcategoria, glosa,tipoGasto) {
-	this->montoVariable = montoVariable;
+TransaccionTemporalidadVariable::TransaccionTemporalidadVariable(float precio,float cantidad, string IDTransaccion,
+	string tipoTransaccion, string categoria, string subCategoria, string glosa, string temporalidad,
+	string tipoRepeticion, Moneda monedaRegistro, Usuario usuario) :Transaccion(IDTransaccion,
+		tipoTransaccion, categoria, subCategoria, glosa, temporalidad, tipoRepeticion,
+		monedaRegistro, usuario) {
+	this->precio = precio;
 	this->cantidad = cantidad;
-	this->tipoRepeticion = tipoRepeticion;
 }
-float GastoVariable::getMontoVariable() { return montoVariable; }
-string GastoVariable::getTipoRepeticion() { return tipoRepeticion; }
-void GastoVariable::setMonto(float monto) { this->montoVariable = montoVariable; }
-void GastoVariable::setTipoRepeticion(string tipoRepeticion) { this->tipoRepeticion = tipoRepeticion; }
-
-class GastoVariablePeriodico :public GastoVariable {
-private:
-	bool vConfirmacion;
-	string periodicidad;
-public:
-	bool getVConfirmacion();
-	string getVPeriodicidad();
-	void setVConfirmacion(bool vConfirmacion);
-	void setConfirmacion(string periodicidad);
-};
-bool GastoVariablePeriodico::getVConfirmacion() { return vConfirmacion; }
-string GastoVariablePeriodico::getVPeriodicidad() { return periodicidad; }
-void GastoVariablePeriodico::setVConfirmacion(bool vConfirmacion) { this->vConfirmacion = vConfirmacion; }
-void GastoVariablePeriodico::setConfirmacion(string periodicidad) { this->periodicidad = periodicidad; }
-
-class IngresoVariable : public Ingreso {
-public:IngresoVariable(float montoVariable, float cantidad, string tipoRepeticion, string IDIngreso, string categoria, 
-	string subCategoria, string glosa, string tipoIngreso);
-private:
-	float montoVariable;
-	float cantidad;
-	string tipoRepeticion;
-public:
-	float getMontoVariable();
-	float getCantidad();
-	string getTipoRepeticion();
-	void setMonto(float montoVariable);
-	void setCantidad(float cantidad);
-	void setTipoRepeticion(string tipoRepeticion);
-};
-IngresoVariable::IngresoVariable(float montoVariable, float cantidad, string tipoRepeticion, string IDIngreso, 
-	string categoria, string subCategoria, string glosa, string tipoIngreso):Ingreso(IDIngreso, categoria, 
-		subCategoria, glosa, tipoIngreso) {
-	this->montoVariable = montoVariable;
-	this->cantidad = cantidad;
-	this->tipoRepeticion = tipoRepeticion;
-}
-float IngresoVariable::getMontoVariable() { return montoVariable; }
-string IngresoVariable::getTipoRepeticion() { return tipoRepeticion; }
-void IngresoVariable::setMonto(float monto) { this->montoVariable = montoVariable; }
-void IngresoVariable::setTipoRepeticion(string tipoRepeticion) { this->tipoRepeticion = tipoRepeticion; }
-
-
-class IngresoVariablePeriodico :public IngresoVariable {
-public:IngresoVariablePeriodico(bool vConfirmacion, string periodicidad, string IDIngreso, string categoria, 
-	string subCategoria, string glosa, string tipoIngreso);
-private:
-	bool vConfirmacion;
-	string periodicidad;
-public:
-	bool getVConfirmacion();
-	string getVPeriodicidad();
-	void setVConfirmacion(bool vConfirmacion);
-	void setConfirmacion(string periodicidad);
-};
-bool IngresoVariablePeriodico::getVConfirmacion() { return vConfirmacion; }
-string IngresoVariablePeriodico::getVPeriodicidad() { return periodicidad; }
-void IngresoVariablePeriodico::setVConfirmacion(bool vConfirmacion) { this->vConfirmacion = vConfirmacion; }
-void IngresoVariablePeriodico::setConfirmacion(string periodicidad) { this->periodicidad = periodicidad; }
-
-
-class PresupuestoGasto : public Presupuesto {
-	private: Gasto gasto;
-	public:PresupuestoGasto(Gasto gastoEntrada, string IDPresupuesto, string categoria, string subCategoria,
-		string tipo, float montoLim);
-	public:
-		Gasto getGasto();
-		void setGasto(Gasto gasto);
-};
-PresupuestoGasto::PresupuestoGasto(Gasto gastoEntrada, string IDPresupuesto, string categoria, string subCategoria, 
-		string tipo, float montoLim):Presupuesto(IDPresupuesto, categoria, subCategoria, tipo, montoLim), 
-		gasto (gastoEntrada) {
-
-}
-Gasto PresupuestoGasto::getGasto() { return gasto; }
-void PresupuestoGasto::setGasto(Gasto gasto) { this->gasto= gasto; }
-
-
-class PresupuestoIngreso : public Presupuesto {
-	private: Ingreso ingreso;
-	public:PresupuestoIngreso(Ingreso ingresoEntrada, string IDPresupuesto, string categoria, string subCategoria,
-		string tipo, float montoLim);
-	public: 
-		Ingreso getIngreso();
-		void setIngreso(Ingreso ingreso);
-
-};
-PresupuestoIngreso::PresupuestoIngreso(Ingreso ingresoEntrada, string IDPresupuesto,string categoria, string subCategoria,
-		string tipo, float montoLim):Presupuesto (IDPresupuesto, categoria, subCategoria, tipo,
-		montoLim), ingreso(ingresoEntrada) {
-	this->ingreso = ingresoEntrada;
-}
-Ingreso PresupuestoIngreso::getIngreso() { return ingreso; }
-void PresupuestoIngreso::setIngreso(Ingreso ingreso) { this->ingreso=ingreso; }
-
-class Fecha {
-private:
-
-};
+float TransaccionTemporalidadVariable::getPrecio() { return precio; }
+float TransaccionTemporalidadVariable::getCantidad() { return cantidad; }
 
 void main() {
-
+	Fecha fecha = Fecha("12-07-2021");
+	cout << fecha.toString() << endl;
 }
