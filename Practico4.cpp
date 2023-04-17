@@ -28,7 +28,7 @@ void ejercicio2() {
         número en otra variable Z.  
         Ej. Si N= 456721, el número invertido es Z=127654.
     */
-    string numero, numeroInvertido;
+    string numero, numeroInvertido = "";
     cout << "Ingrese el numero: " << endl;
     cin >> numero;
     for (int i = size(numero)-1; i <0; i--) {
@@ -58,7 +58,7 @@ void ejercicio4() {
             es decir, si leídos de la izquierda a la derecha y viceversa dan 
             el mismo valor o número.  Ej. 34543
     */
-    string numero, numeroInvertido;
+    string numero, numeroInvertido = "";
     int numeroN;
     cout << "Ingrese el numero: " << endl;
     cin >> numero;
@@ -76,7 +76,12 @@ void ejercicio5() {
     *   5.Hallar el complemento a 9 de un número entero N.  
     *    Ej. 4567, su complemento es 5432.
     */
-
+    string numero, acumulador = "";
+    int variableUtilitaria;
+    cout << "Ingrese el numero: " << endl;
+    cin >> numero;
+    for (int i = 0; i < size(numero)-1; i++) acumulador = acumulador + to_string(9-stoi(numero.substr(i,i+1)));
+    cout<<"Numero complementario : "<<acumulador<<endl;
 }
 void ejercicio6() {
     /*6.	Dado un número entero en base 8, comprobar si alguno de sus dígitos 
