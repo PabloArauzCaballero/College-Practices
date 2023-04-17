@@ -3,8 +3,8 @@
 using namespace std;
 void ejercicio1() {
     /*
-    1.	Dado un número entero N, hacer un programa para sumar los dígitos de 
-        cada uno de ellos.   
+    1.	Dado un número entero N, hacer un programa para sumar los dígitos de
+        cada uno de ellos.
     Ej. Si N= 45634,  la suma es 4+5+6+3+4=22
     */
     string numero;
@@ -12,8 +12,8 @@ void ejercicio1() {
     cout << "Ingrese el numero: " << endl;
     cin >> numero;
     while (acumulador > 10) {
-        for (int i = 0; i < size(numero)-1; i++) {
-            acumulador = acumulador + stoi(numero.substr(i,i+1));
+        for (int i = 0; i < size(numero) - 1; i++) {
+            acumulador = acumulador + stoi(numero.substr(i, i + 1));
         }
         if (acumulador > 10) {
             acumulador = 0;
@@ -24,15 +24,17 @@ void ejercicio1() {
 }
 void ejercicio2() {
     /*
-     * 2.Dado un número entero N, hacer un programa para invertir el 
-        número en otra variable Z.  
+     * 2.Dado un número entero N, hacer un programa para invertir el
+        número en otra variable Z.
         Ej. Si N= 456721, el número invertido es Z=127654.
     */
     string numero, numeroInvertido = "";
     cout << "Ingrese el numero: " << endl;
     cin >> numero;
-    for (int i = size(numero)-1; i <0; i--) {
+    cout << numero.size() << endl;
+    for (int i = numero.size()-1; i > 0; i--) {
         numeroInvertido = numeroInvertido + numero.substr(i, i - 1);
+        cout << numero.substr(i, i - 1) << endl;
     }
     cout << "Numero Invertido Z = " << numeroInvertido << endl;
 }
@@ -43,50 +45,52 @@ void ejercicio3() {
     * Ej. Si N= 5678312,  este tiene 3 dígitos pares (6, 8, 2).
     */
     string numero;
-    int contador;
+    int contador = 0;
     cout << "Ingrese el numero: " << endl;
     cin >> numero;
-    for (int i = 0; i < size(numero)-1; i++) 
-        if (stoi(numero.substr(i, i + 1)) % 2 == 0) 
+    for (int i = 0; i < size(numero) - 1; i++)
+        if (stoi(numero.substr(i, i + 1)) % 2 == 0)
             contador = contador + 1;
     cout << "La cantidad de elementos pares son : " << contador << endl;
 
 }
 void ejercicio4() {
     /*
-    * 4.	Dado un número entero, comprobar si el número es capicúa, 
-            es decir, si leídos de la izquierda a la derecha y viceversa dan 
+    * 4.	Dado un número entero, comprobar si el número es capicúa,
+            es decir, si leídos de la izquierda a la derecha y viceversa dan
             el mismo valor o número.  Ej. 34543
     */
     string numero, numeroInvertido = "";
-    int numeroN;
+    int numeroN,tamano;
     cout << "Ingrese el numero: " << endl;
     cin >> numero;
     numeroN = stoi(numeroInvertido);
-    for (int i = size(numero) - 1; i < 0; i--) 
+    tamano = numero.size() - 1;
+    for (int i = tamano; i > 0; i-=1) {
         numeroInvertido = numeroInvertido + numero.substr(i, i - 1);
+    }
     cout << "Numero Invertido Z = " << numeroInvertido << endl;
-    if (numeroN == stoi(numeroInvertido))     
+    if (numeroN == stoi(numeroInvertido))
         cout << "Conclusión: Es capicua." << endl;
-    else 
+    else
         cout << "Conclusión: No es capicua" << endl;
 }
 void ejercicio5() {
     /*
-    *   5.Hallar el complemento a 9 de un número entero N.  
+    *   5.Hallar el complemento a 9 de un número entero N.
     *    Ej. 4567, su complemento es 5432.
     */
     string numero, acumulador = "";
     int variableUtilitaria;
     cout << "Ingrese el numero: " << endl;
     cin >> numero;
-    for (int i = 0; i < size(numero)-1; i++) acumulador = acumulador + to_string(9-stoi(numero.substr(i,i+1)));
-    cout<<"Numero complementario : "<<acumulador<<endl;
+    for (int i = 0; i < size(numero); i++) acumulador = acumulador + "9";
+    cout << "Numero complementario : " << stoi(acumulador)-stoi(numero) << endl;
 }
 void ejercicio6() {
-    /*6.	Dado un número entero en base 8, comprobar si alguno de sus dígitos 
-            no corresponden a su base.  
-        Ej. El número 2762823, el dígito 8 no corresponde a la base 
+    /*6.	Dado un número entero en base 8, comprobar si alguno de sus dígitos
+            no corresponden a su base.
+        Ej. El número 2762823, el dígito 8 no corresponde a la base
     */
     string numero, strComparinson;
     cout << "Ingrese el numero: " << endl;
@@ -100,6 +104,6 @@ void ejercicio6() {
     }
     cout << "El numero " << numero << " corresponde a la base 8." << endl;
 }
-int main(){
-
+int main() {
+    ejercicio2();
 }
