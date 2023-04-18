@@ -1,4 +1,5 @@
 #include <iostream>
+##include <iostream>
 #include <string>
 using namespace std;
 void ejercicio1() {
@@ -32,9 +33,9 @@ void ejercicio2() {
     cout << "Ingrese el numero: " << endl;
     cin >> numero;
     cout<<"Tamaño : " << numero.size() << endl;
-    for (int i = numero.size(); i > 0; i--) {
-        numeroInvertido = numeroInvertido + numero.substr(i-1, i-1);
-        cout<< "Caracter "<< i << " : " << numero.substr(i-1, i-1) << endl;
+    for (int i = numero.size()-1; i >= 0; i--) {
+        numeroInvertido = numeroInvertido + numero.substr(i, i);
+        cout<< "Caracter "<< i << " : " << numero.substr(i, i) << endl;
     }
     cout << "Numero Invertido Z = " << numeroInvertido << endl;
 }
