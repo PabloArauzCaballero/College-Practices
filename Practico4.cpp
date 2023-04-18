@@ -1,5 +1,4 @@
 #include <iostream>
-##include <iostream>
 #include <string>
 using namespace std;
 void ejercicio1() {
@@ -12,15 +11,11 @@ void ejercicio1() {
     int acumulador = 0;
     cout << "Ingrese el numero: " << endl;
     cin >> numero;
-    while (acumulador > 10) {
-        for (int i = 0; i < numero.size() - 1; i++) {
-            acumulador = acumulador + stoi(numero.substr(i, i + 1));
-        }
-        if (acumulador > 10) {
-            acumulador = 0;
-            numero = to_string(acumulador);
-        }
-    }
+    for (int i = 0; i < numero.size(); i++) {
+        string num;
+        num = numero[i];
+        acumulador = acumulador + stoi(num);
+     }
     cout << "Suma de dígitos hasta que sea menor que diez = " << acumulador << endl;
 }
 void ejercicio2() {
@@ -30,13 +25,12 @@ void ejercicio2() {
         Ej. Si N= 456721, el número invertido es Z=127654.
     */
     string numero, numeroInvertido = "";
+    int numeroN;
     cout << "Ingrese el numero: " << endl;
     cin >> numero;
-    cout<<"Tamaño : " << numero.size() << endl;
-    for (int i = numero.size()-1; i >= 0; i--) {
-        numeroInvertido = numeroInvertido + numero.substr(i, i);
-        cout<< "Caracter "<< i << " : " << numero.substr(i, i) << endl;
-    }
+    cout << "Tamaño : " << numero.size() << endl;
+    numeroN = numero.size();
+    for (int i = numeroN; i >= 0; i--) { numeroInvertido = numeroInvertido + numero[i]; }
     cout << "Numero Invertido Z = " << numeroInvertido << endl;
 }
 void ejercicio3() {
@@ -49,9 +43,11 @@ void ejercicio3() {
     int contador = 0;
     cout << "Ingrese el numero: " << endl;
     cin >> numero;
-    for (int i = 0; i < numero.size() - 1; i++)
-        if (stoi(numero.substr(i, i + 1)) % 2 == 0)
-            contador = contador + 1;
+    for (int i = 0; i < numero.size(); i++) {
+        string num;
+        num = numero[i];
+        if (stoi(num) % 2 == 0) { contador = contador + 1;}
+    }
     cout << "La cantidad de elementos pares son : " << contador << endl;
 
 }
@@ -62,19 +58,15 @@ void ejercicio4() {
             el mismo valor o número.  Ej. 34543
     */
     string numero, numeroInvertido = "";
-    int numeroN,tamano;
+    int numeroN;
     cout << "Ingrese el numero: " << endl;
     cin >> numero;
-    numeroN = stoi(numeroInvertido);
-    tamano = numero.size() - 1;
-    for (int i = tamano; i > 0; i-=1) {
-        numeroInvertido = numeroInvertido + numero.substr(i, i - 1);
-    }
+    cout << "Tamaño : " << numero.size() << endl;
+    numeroN = numero.size();
+    for (int i = numeroN; i >= 0; i--) { numeroInvertido = numeroInvertido + numero[i]; }
     cout << "Numero Invertido Z = " << numeroInvertido << endl;
-    if (numeroN == stoi(numeroInvertido))
-        cout << "Conclusión: Es capicua." << endl;
-    else
-        cout << "Conclusión: No es capicua" << endl;
+    if (numero.compare(numeroInvertido)){cout << "Conclusión: Es capicua." << endl;}
+    else {cout << "Conclusión: No es capicua" << endl;}
 }
 void ejercicio5() {
     /*
@@ -86,7 +78,7 @@ void ejercicio5() {
     cout << "Ingrese el numero: " << endl;
     cin >> numero;
     for (int i = 0; i < numero.size(); i++) acumulador = acumulador + "9";
-    cout << "Numero complementario : " << stoi(acumulador)-stoi(numero) << endl;
+    cout << "Numero complementario : " << stoi(acumulador) - stoi(numero) << endl;
 }
 void ejercicio6() {
     /*6.	Dado un número entero en base 8, comprobar si alguno de sus dígitos
@@ -96,8 +88,8 @@ void ejercicio6() {
     string numero, strComparinson;
     cout << "Ingrese el numero: " << endl;
     cin >> numero;
-    for (int i = 0; i < numero.size() - 1; i++) {
-        strComparinson = numero.substr(i, i + 1);
+    for (int i = 0; i < numero.size(); i++) {
+        strComparinson = numero[i];
         if (strComparinson.compare("8") || strComparinson.compare("9")) {
             cout << "El numero " << numero << " NO corresponde a la base 8." << endl;
             return;
@@ -106,5 +98,5 @@ void ejercicio6() {
     cout << "El numero " << numero << " corresponde a la base 8." << endl;
 }
 int main() {
-    ejercicio2();
+    ejercicio6();
 }
