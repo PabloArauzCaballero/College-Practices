@@ -12,7 +12,7 @@ void ejercicio1() {
     cout << "Ingrese el numero: " << endl;
     cin >> numero;
     while (acumulador > 10) {
-        for (int i = 0; i < size(numero) - 1; i++) {
+        for (int i = 0; i < numero.size() - 1; i++) {
             acumulador = acumulador + stoi(numero.substr(i, i + 1));
         }
         if (acumulador > 10) {
@@ -31,10 +31,10 @@ void ejercicio2() {
     string numero, numeroInvertido = "";
     cout << "Ingrese el numero: " << endl;
     cin >> numero;
-    cout << numero.size() << endl;
-    for (int i = numero.size()-1; i > 0; i--) {
-        numeroInvertido = numeroInvertido + numero.substr(i, i - 1);
-        cout << numero.substr(i, i - 1) << endl;
+    cout<<"Tamaño : " << numero.size() << endl;
+    for (int i = numero.size(); i > 0; i--) {
+        numeroInvertido = numeroInvertido + numero.substr(i-1, i-1);
+        cout<< "Caracter "<< i << " : " << numero.substr(i-1, i-1) << endl;
     }
     cout << "Numero Invertido Z = " << numeroInvertido << endl;
 }
@@ -48,7 +48,7 @@ void ejercicio3() {
     int contador = 0;
     cout << "Ingrese el numero: " << endl;
     cin >> numero;
-    for (int i = 0; i < size(numero) - 1; i++)
+    for (int i = 0; i < numero.size() - 1; i++)
         if (stoi(numero.substr(i, i + 1)) % 2 == 0)
             contador = contador + 1;
     cout << "La cantidad de elementos pares son : " << contador << endl;
@@ -84,7 +84,7 @@ void ejercicio5() {
     int variableUtilitaria;
     cout << "Ingrese el numero: " << endl;
     cin >> numero;
-    for (int i = 0; i < size(numero); i++) acumulador = acumulador + "9";
+    for (int i = 0; i < numero.size(); i++) acumulador = acumulador + "9";
     cout << "Numero complementario : " << stoi(acumulador)-stoi(numero) << endl;
 }
 void ejercicio6() {
@@ -95,7 +95,7 @@ void ejercicio6() {
     string numero, strComparinson;
     cout << "Ingrese el numero: " << endl;
     cin >> numero;
-    for (int i = 0; i < size(numero) - 1; i++) {
+    for (int i = 0; i < numero.size() - 1; i++) {
         strComparinson = numero.substr(i, i + 1);
         if (strComparinson.compare("8") || strComparinson.compare("9")) {
             cout << "El numero " << numero << " NO corresponde a la base 8." << endl;
