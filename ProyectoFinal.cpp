@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 using namespace std;
-
 template <typename T>
 struct Nodo {
 	T dato;
@@ -183,9 +182,20 @@ int Opcion::getCalificacion() { return this->calificacion; }
 Pregunta Opcion::getPregunta() { return this->pregunta; }
 
 class Usuario {
-public:Usuario(string IDUsuario, string nombre, string apellidoPaterno, string apellidoMaterno, string contrasena,
-	Fecha fechaRegistro, float montoAhorrado, string sexo, Fecha fechaNacimiento, string telefono, string codigoPais,
-	string pais, Moneda monedaPatron);
+public:Usuario(
+		string IDUsuario, 
+		string nombre, 
+		string apellidoPaterno, 
+		string apellidoMaterno, 
+		string contrasena,
+		Fecha fechaRegistro, 
+		float montoAhorrado, 
+		string sexo, 
+		Fecha fechaNacimiento, 
+		string telefono, 
+		string codigoPais,
+		string pais, 
+		Moneda monedaPatron);
 private:
 	string IDUsuario;
 	string nombre;
@@ -215,12 +225,22 @@ public:
 	string getPais();
 	Moneda getMonedaPatron();
 };
-Usuario::Usuario(string IDUsuario, string nombre, string apellidoPaterno,
-	string apellidoMaterno, string contrasena,
-	Fecha fechaRegistro, float montoAhorrado,
-	string sexo, Fecha fechaNacimiento, string telefono,
-	string codigoPais, string pais,
-	Moneda monedaPatron) :monedaPatron(monedaPatron),fechaNacimiento(fechaNacimiento),fechaRegistro(fechaRegistro){
+Usuario::Usuario(
+		string IDUsuario, 
+		string nombre, 
+		string apellidoPaterno,
+		string apellidoMaterno, 
+		string contrasena,
+		Fecha fechaRegistro, 
+		float montoAhorrado,
+		string sexo, 
+		Fecha fechaNacimiento, 
+		string telefono,
+		string codigoPais, 
+		string pais,
+		Moneda monedaPatron) :monedaPatron(monedaPatron),
+							  fechaNacimiento(fechaNacimiento), 
+						      fechaRegistro(fechaRegistro){
 	this->IDUsuario = IDUsuario;
 	this->nombre = nombre;
 	this->apellido_Paterno = apellido_Paterno;
@@ -251,10 +271,22 @@ Moneda Usuario::getMonedaPatron() { return monedaPatron; }
 
 class Transaccion {
 public:
-	Transaccion(string IDTransaccion, string tipoTransaccion, string categoria,
-		string subCategoria, string glosa, string temporalidad, string tipoRepeticion,
-		Moneda monedaRegistro, Usuario usuario, Fecha fecha);
-	Transaccion(string parametros[], Usuario usuario, Moneda moneda, Fecha fecha);
+	Transaccion(
+		string IDTransaccion, 
+		string tipoTransaccion, 
+		string categoria,
+		string subCategoria, 
+		string glosa, 
+		string temporalidad, 
+		string tipoRepeticion,
+		Moneda monedaRegistro, 
+		Usuario usuario, 
+		Fecha fecha);
+	Transaccion(
+		string parametros[], 
+		Usuario usuario, 
+		Moneda moneda, 
+		Fecha fecha);
 private:
 	string IDTransaccion;
 	string tipoTransaccion;
@@ -287,8 +319,14 @@ public:
 	void setTipoGasto(string tipoGasto);
 	bool compararTransacciones(Transaccion transaccion1, Transaccion transaccion2);
 };
-Transaccion::Transaccion(string IDTransaccion, string tipoTransaccion, string categoria,
-	string subCategoria, string glosa, string temporalidad, string tipoRepeticion,
+Transaccion::Transaccion(
+	string IDTransaccion, 
+	string tipoTransaccion, 
+	string categoria,
+	string subCategoria, 
+	string glosa, 
+	string temporalidad, 
+	string tipoRepeticion,
 	Moneda monedaRegistro, Usuario usuario, Fecha fecha) :
 	usuario(usuario), monedaRegistro(monedaRegistro), fecha(fecha) {
 	this->IDTransaccion = IDTransaccion;
@@ -617,59 +655,6 @@ public:
 		string entrada[CANTIDAD_ARGUMENTOS_TABLA_USUARIOS] = { usuario.getIDUsaurio(),
 			usuario.getNombre(),usuario.getApellido_Paterno(),usuario.getApellido_Materno(),
 			usuario.getContrasena(),usuario.getFechaRegistro().toString(),
-			to_string(usuario.getMontoAhorrado()),usuario.getSexo(),
-			usuario.getFechaNacimiento().toString(),usuario.getTelefono(),
-			usuario.getCodigoPais(),usuario.getPais(),usuario.getMonedaPatron().toString() };
-		ejecutarRegistroEnDB(generarConsulta(
-			CANTIDAD_ARGUMENTOS_TABLA_USUARIOS,
-			NOMBRE_TABLA_USUARIOS, entrada,
-			NULL));
-	}
-	void registrarRespuesta(Respuesta respuesta) override {
-		string entrada[CANTIDAD_ARGUMENTOS_TABLA_RESPUESTAS] = {
-			respuesta.getUsuario().getIDUsaurio(),
-			respuesta.getTransaccionConsultada().getIDTransaccion(),
-			respuesta.getOpcionSeleccionada().getID_Opcion() };
-		ejecutarRegistroEnDB(generarConsulta(
-			CANTIDAD_ARGUMENTOS_TABLA_RESPUESTAS,
-			NOMBRE_TABLA_RESPUESTA, entrada));
-	}
-	void registrarTransaccion(Transaccion transaccion) override {
-		string entrada[CANTIDAD_ARGUMENTOS_TABLA_TRANSACCIONES] = { transaccion.getIDTransaccion(), transaccion.getTipoTransaccion(),
-		transaccion.getSubCategoria(),transaccion.getSubCategoria(),transaccion.getGlosa(),
-		transaccion.getTemporalidad(),transaccion.getMonedaRegistro().toString(),
-			transaccion.getUsuario().getIDUsaurio() };
-		ejecutarRegistroEnDB(generarConsulta(
-			CANTIDAD_ARGUMENTOS_TABLA_TRANSACCIONES,
-			NOMBRE_TABLA_TRANSACCIONES, entrada));
-	}
-	void registrarTransaccionFija(TransaccionTemporalidadFija transaccionFJ) override {
-		string entrada[CANTIDAD_ARGUMENTOS_TABLA_TRANSACCION_FIJA] = {
-			transaccionFJ.getIDTransaccion(),to_string(transaccionFJ.getMonto()) };
-		ejecutarRegistroEnDB(generarConsulta(
-			CANTIDAD_ARGUMENTOS_TABLA_TRANSACCION_FIJA,
-			NOMBRE_TABLA_TRANSACCION_FIJA, entrada));
-	}
-	void registrarTransaccionVariable(TransaccionTemporalidadVariable transaccionV) override {
-		string entrada[CANTIDAD_ARGUMENTOS_TABLA_TRANSACCION_VARIABLE] = {
-			transaccionV.getIDTransaccion(), to_string(transaccionV.getPrecio()),
-			to_string(transaccionV.getCantidad()) };
-		ejecutarRegistroEnDB(generarConsulta(
-			CANTIDAD_ARGUMENTOS_TABLA_TRANSACCION_VARIABLE,
-			NOMBRE_TABLA_TRANSACCION_VARIABLE, entrada));
-	}
-	void registrarTransaccionPeriodica(TransaccionPeriodica transaccionP) override {
-		string entrada[CANTIDAD_ARGUMENTOS_TABLA_TRANSACCION_PERIODICA] = {
-			transaccionP.getIDTransaccion(), transaccionP.getPeriodicidad(),
-			to_string(transaccionP.getVConsulta()) };
-		ejecutarRegistroEnDB(generarConsulta(
-			CANTIDAD_ARGUMENTOS_TABLA_TRANSACCION_PERIODICA,
-			NOMBRE_TABLA_TRANSACCION_PERIODICA, entrada));
-	}
-	void registrarUsuario(Usuario usuario) override {
-		string entrada[CANTIDAD_ARGUMENTOS_TABLA_USUARIOS] = { usuario.getIDUsaurio(),
-			usuario.getNombre(),usuario.getApellido_Paterno(),usuario.getApellido_Materno(),
-			usuario.getContrasena(),usuario.getFechaRegistro().toString(),
 			to_string(usuario.getMontoAhorrado()),
 			usuario.getSexo(),usuario.getFechaNacimiento().toString(),usuario.getTelefono(),
 			usuario.getCodigoPais(),usuario.getPais(),usuario.getMonedaPatron().toString() };
@@ -693,8 +678,7 @@ public:
 			CANTIDAD_ARGUMENTOS_TABLA_PRESUPUESTOS,
 			NOMBRE_TABLA_PRESUPUESTOS, entrada));
 	}
-	/*
-	*/
+
 	void modificarTransaccion(Transaccion transaccion) override {
 		string entrada[CANTIDAD_ARGUMENTOS_TABLA_TRANSACCIONES] = { transaccion.getIDTransaccion(), transaccion.getTipoTransaccion(),
 		transaccion.getSubCategoria(),transaccion.getSubCategoria(),transaccion.getGlosa(),
@@ -762,8 +746,7 @@ public:
 			NOMBRE_TABLA_PRESUPUESTOS, entrada,
 			NOMBRE_COLUMNAS_PRESUPUESTO));
 	}
-	/*
-	*/
+
 	void eliminarTransaccion(Transaccion transaccion) override {
 		ejecutarRegistroEnDB(generarConsulta(
 			transaccion.getIDTransaccion(),
@@ -804,8 +787,7 @@ public:
 			NOMBRE_COLUMNAS_PRESUPUESTO[0],
 			NOMBRE_TABLA_PRESUPUESTOS));
 	}
-	/*
-	*/
+	
 	Transaccion buscarTransaccion(string ID_Transaccion, Usuario usuario) {
 		string valores[CANTIDAD_ARGUMENTOS_TABLA_TRANSACCIONES] = {};
 		for (int i = 0; i < CANTIDAD_ARGUMENTOS_TABLA_TRANSACCIONES; i++) {
@@ -985,3 +967,5 @@ class FactoryConexionDB {
 public:
 	static ConexionDB getConexionSQL();
 };
+
+void main(){}
