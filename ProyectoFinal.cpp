@@ -137,8 +137,8 @@ int Opcion::getCalificacion() { return this->calificacion; }
 Pregunta Opcion::getPregunta() { return this->pregunta; }
 
 class Usuario {
-public: Usuario(string IDUsuario, string nombre, string apellidoPaterno, string apellidoMaterno, string contrasena,
-	string fechaRegistro, string montoAhorrado, string sexo, string fechaNacimiento, string telefono, string codigoPais,
+public:Usuario(string IDUsuario, string nombre, string apellidoPaterno, string apellidoMaterno, string contrasena,
+	Fecha fechaRegistro, float montoAhorrado, string sexo, Fecha fechaNacimiento, string telefono, string codigoPais,
 	string pais, Moneda monedaPatron);
 private:
 	string IDUsuario;
@@ -146,10 +146,10 @@ private:
 	string apellido_Paterno;
 	string apellido_Materno;
 	string contrasena;
-	string fechaRegistro;
-	string montoAhorrado;
+	Fecha fechaRegistro;
+	float montoAhorrado;
 	string sexo;
-	string fechaNacimiento;
+	Fecha fechaNacimiento;
 	string telefono;
 	string codigoPais;
 	string pais;
@@ -160,18 +160,21 @@ public:
 	string getApellido_Paterno();
 	string getApellido_Materno();
 	string getContrasena();
-	string getFechaRegistro();
-	string getMontoAhorrado();
+	Fecha getFechaRegistro();
+	float getMontoAhorrado();
 	string getSexo();
-	string getFechaNacimiento();
+	Fecha getFechaNacimiento();
 	string getTelefono();
 	string getCodigoPais();
 	string getPais();
 	Moneda getMonedaPatron();
 };
-Usuario::Usuario(string IDUsuario, string nombre, string apellidoPaterno, string apellidoMaterno, string contrasena,
-	string fechaRegistro, string montoAhorrado, string sexo, string fechaNacimiento, string telefono, string codigoPais,
-	string pais, Moneda monedaPatron) : monedaPatron(monedaPatron) {
+Usuario::Usuario(string IDUsuario, string nombre, string apellidoPaterno, 
+	string apellidoMaterno, string contrasena,
+	Fecha fechaRegistro, float montoAhorrado, 
+	string sexo, Fecha fechaNacimiento, string telefono, 
+	string codigoPais, string pais, 
+	Moneda monedaPatron):monedaPatron(monedaPatron) {
 	this->IDUsuario= IDUsuario;
 	this->nombre= nombre;
 	this->apellido_Paterno= apellido_Paterno;
@@ -191,10 +194,10 @@ string Usuario::getNombre() { return nombre; }
 string Usuario::getApellido_Paterno() { return apellido_Paterno; }
 string Usuario::getApellido_Materno() { return apellido_Materno; }
 string Usuario::getContrasena() { return contrasena; }
-string Usuario::getFechaRegistro() { return fechaRegistro; }
-string Usuario::getMontoAhorrado() { return montoAhorrado; }
+Fecha Usuario::getFechaRegistro() { return this->fechaRegistro; }
+float Usuario::getMontoAhorrado() { return this->montoAhorrado; }
 string Usuario::getSexo() { return sexo; }
-string Usuario::getFechaNacimiento() { return fechaNacimiento; }
+Fecha Usuario::getFechaNacimiento() { return this->fechaNacimiento; }
 string Usuario::getTelefono() { return telefono; }
 string Usuario::getCodigoPais() { return codigoPais; }
 string Usuario::getPais() { return pais; }
@@ -611,10 +614,11 @@ public:
 			NOMBRE_TABLA_TRANSACCION_PERIODICA,entrada));
 	}
 	void registrarUsuario(Usuario usuario) override {
-		string entrada[CANTIDAD_ARGUMENTOS_TABLA_USUARIOS]={usuario.getIDUsaurio(),
+		string entrada[CANTIDAD_ARGUMENTOS_TABLA_USUARIOS] = { usuario.getIDUsaurio(),
 			usuario.getNombre(),usuario.getApellido_Paterno(),usuario.getApellido_Materno(),
-			usuario.getContrasena(),usuario.getFechaRegistro(),usuario.getMontoAhorrado(),
-			usuario.getSexo(),usuario.getFechaNacimiento(),usuario.getTelefono(),
+			usuario.getContrasena(),usuario.getFechaRegistro().toString(),
+			to_string(usuario.getMontoAhorrado()),usuario.getSexo(),
+			usuario.getFechaNacimiento().toString(),usuario.getTelefono(),
 			usuario.getCodigoPais(),usuario.getPais(),usuario.getMonedaPatron().toString()};
 		ejecutarRegistroEnDB(generarConsulta(
 			CANTIDAD_ARGUMENTOS_TABLA_USUARIOS,
@@ -665,8 +669,9 @@ public:
 	void registrarUsuario(Usuario usuario) override {
 		string entrada[CANTIDAD_ARGUMENTOS_TABLA_USUARIOS]={usuario.getIDUsaurio(),
 			usuario.getNombre(),usuario.getApellido_Paterno(),usuario.getApellido_Materno(),
-			usuario.getContrasena(),usuario.getFechaRegistro(),usuario.getMontoAhorrado(),
-			usuario.getSexo(),usuario.getFechaNacimiento(),usuario.getTelefono(),
+			usuario.getContrasena(),usuario.getFechaRegistro().toString(),
+			to_string(usuario.getMontoAhorrado()),
+			usuario.getSexo(),usuario.getFechaNacimiento().toString(),usuario.getTelefono(),
 			usuario.getCodigoPais(),usuario.getPais(),usuario.getMonedaPatron().toString()};
 		ejecutarRegistroEnDB(generarConsulta(CANTIDAD_ARGUMENTOS_TABLA_USUARIOS,
 			NOMBRE_TABLA_USUARIOS, entrada));
@@ -729,8 +734,9 @@ public:
 	void modificarUsuario(Usuario usuario) override {
 		string entrada[CANTIDAD_ARGUMENTOS_TABLA_USUARIOS] = { usuario.getIDUsaurio(),
 			usuario.getNombre(),usuario.getApellido_Paterno(),usuario.getApellido_Materno(),
-			usuario.getContrasena(),usuario.getFechaRegistro(),usuario.getMontoAhorrado(),
-			usuario.getSexo(),usuario.getFechaNacimiento(),usuario.getTelefono(),
+			usuario.getContrasena(),usuario.getFechaRegistro().toString(),
+			to_string(usuario.getMontoAhorrado()), usuario.getSexo(),
+			usuario.getFechaNacimiento().toString(),usuario.getTelefono(),
 			usuario.getCodigoPais(),usuario.getPais(),usuario.getMonedaPatron().toString() };
 		ejecutarRegistroEnDB(generarConsulta(
 			CANTIDAD_ARGUMENTOS_TABLA_USUARIOS,
@@ -759,67 +765,40 @@ public:
 	/*
 	*/
 	void eliminarTransaccion(Transaccion transaccion) override {
-		string entrada[CANTIDAD_ARGUMENTOS_TABLA_TRANSACCIONES] = { transaccion.getIDTransaccion(), transaccion.getTipoTransaccion(),
-		transaccion.getSubCategoria(),transaccion.getSubCategoria(),transaccion.getGlosa(),
-		transaccion.getTemporalidad(),transaccion.getMonedaRegistro().toString(),
-			transaccion.getUsuario().getIDUsaurio() };
 		ejecutarRegistroEnDB(generarConsulta(
 			transaccion.getIDTransaccion(),
 			NOMBRE_COLUMNAS_TRANSACCION[0], 
 			NOMBRE_TABLA_TRANSACCIONES));
 	}
 	void eliminarTransaccionFija(TransaccionTemporalidadFija transaccionFJ) override {
-		string entrada[CANTIDAD_ARGUMENTOS_TABLA_TRANSACCION_FIJA] = {
-			transaccionFJ.getIDTransaccion(),to_string(transaccionFJ.getMonto()) };
 		ejecutarRegistroEnDB(generarConsulta(
 			transaccionFJ.getIDTransaccion(),
 			NOMBRE_COLUMNAS_TRANSACCION_FIJA[0],
 			NOMBRE_TABLA_TRANSACCION_FIJA));
 	}
 	void eliminarTransaccionVariable(TransaccionTemporalidadVariable transaccionV) override {
-		string entrada[CANTIDAD_ARGUMENTOS_TABLA_TRANSACCION_VARIABLE] = {
-			transaccionV.getIDTransaccion(), to_string(transaccionV.getPrecio()),
-			to_string(transaccionV.getCantidad()) };
 		ejecutarRegistroEnDB(generarConsulta(
 			transaccionV.getIDTransaccion(),
 			NOMBRE_COLUMNAS_TRANSACCION_VARIABLE[0],
 			NOMBRE_TABLA_TRANSACCION_VARIABLE));
 	}
 	void eliminarTransaccionPeriodica(TransaccionPeriodica transaccionP) override {
-		string entrada[CANTIDAD_ARGUMENTOS_TABLA_TRANSACCION_PERIODICA] = {
-			transaccionP.getIDTransaccion(), transaccionP.getPeriodicidad(),
-			to_string(transaccionP.getVConsulta()) };
 		ejecutarRegistroEnDB(generarConsulta(
 			transaccionP.getIDTransaccion(),
 			NOMBRE_COLUMNAS_TRANSACCION_PERIODICA[0],
 			NOMBRE_TABLA_TRANSACCION_PERIODICA));
 	}
 	void eliminarUsuario(Usuario usuario) override {
-		string entrada[CANTIDAD_ARGUMENTOS_TABLA_USUARIOS] = { usuario.getIDUsaurio(),
-			usuario.getNombre(),usuario.getApellido_Paterno(),usuario.getApellido_Materno(),
-			usuario.getContrasena(),usuario.getFechaRegistro(),usuario.getMontoAhorrado(),
-			usuario.getSexo(),usuario.getFechaNacimiento(),usuario.getTelefono(),
-			usuario.getCodigoPais(),usuario.getPais(),usuario.getMonedaPatron().toString() };
 		ejecutarRegistroEnDB(generarConsulta(usuario.getIDUsaurio(),
 			NOMBRE_COLUMNAS_USUARIO[0],
 			NOMBRE_TABLA_USUARIOS));
 	}
 	void eliminarRespuesta(Respuesta respuesta) override {
-		string entrada[CANTIDAD_ARGUMENTOS_TABLA_RESPUESTAS] = {
-			respuesta.getUsuario().getIDUsaurio(),
-			respuesta.getTransaccionConsultada().getIDTransaccion(),
-			respuesta.getOpcionSeleccionada().getID_Opcion() };
 		ejecutarRegistroEnDB(generarConsulta(respuesta.getUsuario().getIDUsaurio(),
 			NOMBRE_COLUMNAS_RESPUESTA[0],
 			NOMBRE_TABLA_RESPUESTA));
 	}
 	void eliminarPresupuesto(Presupuesto presupuesto) override {
-		string entrada[CANTIDAD_ARGUMENTOS_TABLA_PRESUPUESTOS] = {
-		presupuesto.getIDPresupuesto(),
-		presupuesto.getCategoria(), 
-		presupuesto.getSubCategoria(),
-		to_string(presupuesto.getMontoLim()),
-		presupuesto.getTipo()};
 		ejecutarRegistroEnDB(generarConsulta(
 				presupuesto.getIDPresupuesto(),
 				NOMBRE_COLUMNAS_PRESUPUESTO[0],
@@ -863,23 +842,93 @@ public:
 			usuario,
 			transaccion.getFechaRegistro());
 	}
-	TransaccionTemporalidadVariable buscarTransaccionVariable(string ID_Transaccion) {
-
+	TransaccionTemporalidadVariable buscarTransaccionVariable(string ID_Transaccion,
+			Usuario usuario) {
+		string valores[CANTIDAD_ARGUMENTOS_TABLA_TRANSACCION_VARIABLE] = {};
+		for (int i = 0; i < CANTIDAD_ARGUMENTOS_TABLA_TRANSACCION_VARIABLE; i++) {
+			valores[i] = ejecutarConsulta(generarConsulta(
+				NOMBRE_TABLA_TRANSACCION_VARIABLE, ID_Transaccion,
+				NOMBRE_COLUMNAS_TRANSACCION_VARIABLE[i],
+				NOMBRE_COLUMNAS_TRANSACCION_VARIABLE[0]));
+		}
+		Transaccion transaccion = buscarTransaccion(valores[0], usuario);
+		return TransaccionTemporalidadVariable(
+			stof(valores[1]),
+			stof(valores[2]),
+			valores[0],
+			transaccion.getTipoTransaccion(),
+			transaccion.getCategoria(),
+			transaccion.getSubCategoria(),
+			transaccion.getGlosa(),
+			transaccion.getTemporalidad(),
+			transaccion.getTipoRepeticion(),
+			transaccion.getMonedaRegistro(),
+			usuario,
+			transaccion.getFechaRegistro());
 	}
 	TransaccionPeriodica buscarTransaccionPeriodica(string ID_Transaccion) {
 
 	}
 	Usuario buscarUsuario(string ID_Usuario) {
-
+		string valores[CANTIDAD_ARGUMENTOS_TABLA_USUARIOS] = {};
+		for (int i = 0; i < CANTIDAD_ARGUMENTOS_TABLA_TRANSACCION_VARIABLE; i++) {
+			valores[i] = ejecutarConsulta(generarConsulta(
+				NOMBRE_TABLA_USUARIOS, ID_Usuario,
+				NOMBRE_COLUMNAS_USUARIO[i],
+				NOMBRE_COLUMNAS_USUARIO[0]));
+		}
+		return Usuario(
+			valores[0], // IDUsuario
+			valores[1], // nombre
+			valores[2], // apellidoPaterno
+			valores[3], // apellidoMaterno
+			valores[4], // contrasena
+			Fecha(valores[5]), // fechaRegistro
+			stof(valores[6]), // montoAhorrado
+			valores[7], // sexo
+			Fecha(valores[8]), // fechaNacimiento
+			valores[9], // telefono
+			valores[10], // codigo pais
+			valores[11], // pais
+			buscarMoneda(valores[12]) // monedaPatron
+		);
 	}
-	Respuesta buscarRespuesta(string ID_Usuario, string ID_Transaccion, string ID_Opcion) {
-
+	Respuesta buscarRespuesta(string ID_Respuesta, Usuario usuario) {
+		string valores[CANTIDAD_ARGUMENTOS_TABLA_RESPUESTAS] = {};
+		for (int i = 0; i < CANTIDAD_ARGUMENTOS_TABLA_RESPUESTAS; i++) {
+			valores[i] = ejecutarConsulta(generarConsulta(
+				NOMBRE_TABLA_RESPUESTA, ID_Respuesta,
+				NOMBRE_COLUMNAS_RESPUESTA[i],
+				NOMBRE_COLUMNAS_RESPUESTA[0]));
+		}
+		return Respuesta(
+			valores[0], 
+			buscarOpcion(valores[1]), 
+			usuario, 
+			buscarTransaccion(valores[3], usuario));
 	}
-	Opcion buscarOpcion(string ID_Pregunta, string ID_Opcion) {
-
+	Opcion buscarOpcion(string ID_Opcion) {
+		string valores[CANTIDAD_ARGUMENTOS_TABLA_OPCIONES] = {};
+		for (int i = 0; i < CANTIDAD_ARGUMENTOS_TABLA_OPCIONES; i++) {
+			valores[i] = ejecutarConsulta(generarConsulta(
+				NOMBRE_TABLA_OPCIONES, ID_Opcion,
+				NOMBRE_COLUMNAS_OPCIONES[i],
+				NOMBRE_COLUMNAS_OPCIONES[0]));
+		}
+		return Opcion(valores[0], 
+			valores[1], 
+			stoi(valores[2]), 
+			buscarPregunta(valores[3]));
 	}
 	Pregunta buscarPregunta(string ID_Pregunta) {
-
+		string valores[CANTIDAD_ARGUMENTOS_TABLA_PREGUNTAS] = {};
+		for (int i = 0; i < CANTIDAD_ARGUMENTOS_TABLA_PREGUNTAS; i++) {
+			valores[i] = ejecutarConsulta(generarConsulta(
+				NOMBRE_TABLA_PREGUNTAS, ID_Pregunta,
+				NOMBRE_COLUMNAS_PREGUNTAS[i],
+				NOMBRE_COLUMNAS_PREGUNTAS[0]));
+		}
+		return Pregunta(valores[0], valores[1], valores[2], stoi(valores[3]));
 	}
 	Moneda buscarMoneda(string ID_Moneda) {
 
