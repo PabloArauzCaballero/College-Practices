@@ -239,8 +239,8 @@ Usuario::Usuario(
 		string codigoPais, 
 		string pais,
 		Moneda monedaPatron) :monedaPatron(monedaPatron),
-							  fechaNacimiento(fechaNacimiento), 
-						      fechaRegistro(fechaRegistro){
+				      fechaNacimiento(fechaNacimiento), 
+		             	      fechaRegistro(fechaRegistro){
 	this->IDUsuario = IDUsuario;
 	this->nombre = nombre;
 	this->apellido_Paterno = apellido_Paterno;
@@ -320,15 +320,17 @@ public:
 	bool compararTransacciones(Transaccion transaccion1, Transaccion transaccion2);
 };
 Transaccion::Transaccion(
-	string IDTransaccion, 
-	string tipoTransaccion, 
-	string categoria,
-	string subCategoria, 
-	string glosa, 
-	string temporalidad, 
-	string tipoRepeticion,
-	Moneda monedaRegistro, Usuario usuario, Fecha fecha) :
-	usuario(usuario), monedaRegistro(monedaRegistro), fecha(fecha) {
+		string IDTransaccion, 
+		string tipoTransaccion, 
+		string categoria,
+		string subCategoria, 
+		string glosa, 
+		string temporalidad, 
+		string tipoRepeticion,
+		Moneda monedaRegistro, Usuario usuario, Fecha fecha) :
+			usuario(usuario), 
+			monedaRegistro(monedaRegistro), 
+			fecha(fecha) {
 	this->IDTransaccion = IDTransaccion;
 	this->tipoTransaccion = tipoTransaccion;
 	this->categoria = categoria;
@@ -340,8 +342,14 @@ Transaccion::Transaccion(
 	this->usuario = usuario;
 	this->fecha = fecha;
 }
-Transaccion::Transaccion(string parametros[], Usuario usuario, Moneda moneda, Fecha fecha) :
-	usuario(usuario), monedaRegistro(moneda), fecha(fecha) {
+Transaccion::Transaccion(
+	string parametros[], 
+	Usuario usuario, 	
+	Moneda moneda, 
+	Fecha fecha) :
+		usuario(usuario), 	
+		monedaRegistro(moneda), 
+		fecha(fecha) {
 	this->IDTransaccion = parametros[0];
 	this->tipoTransaccion = parametros[2];
 	this->categoria = parametros[3];
@@ -406,7 +414,12 @@ public:
 	void setTipo(string tipo);
 	void setMontoLim(float montoLim);
 };
-Presupuesto::Presupuesto(string IDPresupuesto, string categoria, string subCategoria, string tipo, float montoLim) {
+Presupuesto::Presupuesto(
+		string IDPresupuesto, 
+		string categoria, 
+		string subCategoria, 
+		string tipo, 
+		float montoLim) {
 	this->IDPresupuesto = IDPresupuesto;
 	this->categoria = categoria;
 	this->subCategoria = subCategoria;
